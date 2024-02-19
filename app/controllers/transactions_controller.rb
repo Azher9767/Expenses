@@ -19,7 +19,6 @@ class TransactionsController < ApplicationController
     end
     transaction_analyzer = TransactionAnalyzer.new(@result).process
     transaction = Transaction.new(data: transaction_analyzer.to_json)
-    debugger
    
     if  transaction.save
       redirect_to transaction
