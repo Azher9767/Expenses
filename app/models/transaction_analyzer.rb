@@ -33,9 +33,12 @@ class TransactionAnalyzer
         elsif val.keys.include?(item)
           row[:category] = key
           row[:sub_category] = item
+        elsif row[:category].nil? || row[:sub_category].nil?
+          row[:category] = key
         end
       end 
       row
+
     end.group_by do |transaction|
       transaction[:category] 
     end

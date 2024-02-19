@@ -55,6 +55,8 @@ Category.create(name: "mart", parent_id: category.id)
 Category.create(name: "dmart", parent_id: category.id)
 Category.create(name: "others", parent_id: category.id)
 
+category = Category.create(name: "others")
+
 
 
 

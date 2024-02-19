@@ -12,4 +12,3 @@ class Category < ApplicationRecord
     response
   end
 end
-
