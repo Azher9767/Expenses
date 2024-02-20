@@ -1,4 +1,3 @@
-
 class TransactionAnalyzer
   def initialize(result)
     @transactions = result
@@ -15,7 +14,16 @@ class TransactionAnalyzer
   end
 
   def process
-    categorized_transactions 
+    result = {}
+    categorized_transactions.each do |key, value|
+      if key == "others"
+        result[key] = value
+      else
+        result[key] = value.group_by { |v1| v1[:sub_category] }
+      end
+    end
+    result['others'].each do |transaction|
+    end
   end
 
   private 
