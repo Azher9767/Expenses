@@ -14,6 +14,9 @@ end
 def expenses_sub_category
   total = {}
   categorized_transactions.each do |key, value|
+    if key == "others"
+      total[key] = value.sum { |val| val["Withdrawal Amt."].to_i }
+    else
     total[key] = value.group_by do |v1|
       v1[:sub_category]
     end.transform_values do |v1|
@@ -22,6 +25,7 @@ def expenses_sub_category
         end
       end
     end
+  end
   total
 end
 

@@ -111,7 +111,7 @@ RSpec.describe TransactionAnalyzer do
 
   xit "expenses per sub_category" do 
     analyzer = described_class.new(csv_data)
-    expect(analyzer.expenses_sub_category).to eq({"others"=>{nil=>40.0}, "restaurant"=>{"others"=>100.0, "tea"=>25.0}})
+    expect(analyzer.expenses_sub_category).to eq({"others"=>40, "restaurant"=>{"others"=>100.0, "tea"=>25.0}})
   end
 
   it "expenses per category" do 
