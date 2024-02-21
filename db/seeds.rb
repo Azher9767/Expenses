@@ -51,11 +51,24 @@ category = Category.create(name: "petrol")
 Category.create(name: "petrol", parent_id: category.id)
 
 category = Category.create(name: "grocery")
-Category.create(name: "mart", parent_id: category.id)
-Category.create(name: "dmart", parent_id: category.id)
+Category.create(name: "fruit", parent_id: category.id)
+Category.create(name: "dudaram", parent_id: category.id)
+Category.create(name: "others", parent_id: category.id)
+
+category = Category.create(name: "personal")
+Category.create(name: "bike", parent_id: category.id)
+Category.create(name: "insurance", parent_id: category.id)
+Category.create(name: "others", parent_id: category.id)
+
+category = Category.create(name: "project")
+Category.create(name: "midjourney", parent_id: category.id)
+Category.create(name: "digitalocean", parent_id: category.id)
+Category.create(name: "salary", parent_id: category.id)
+Category.create(name: "coworking", parent_id: category.id)
 Category.create(name: "others", parent_id: category.id)
 
 category = Category.create(name: "others")
+
 
 
 

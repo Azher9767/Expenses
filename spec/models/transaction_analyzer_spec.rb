@@ -7,6 +7,16 @@ RSpec.describe TransactionAnalyzer do
   #   end
   #   result
   # end
+  let(:restaurant_transaction) do
+    {
+      "Date" => "02/11/23",
+      "Narration" => "UPI-SAMADHAN BHEL-GPAY-11180273639@OKBIZAXIS-UTIB0000000-330620519772-RESTAURANT",
+      "Chq./Ref.No." => "330620519772",
+      "Value Dt" => "02/11/23",
+      "Withdrawal Amt." => "100",
+      "Deposit Amt." => nil
+    }
+  end
 
   let(:tea_transaction) do
     {
@@ -20,7 +30,13 @@ RSpec.describe TransactionAnalyzer do
   end
 
   let(:uncategorized_transaction) do
-    {"Date" => "02/11/23", "Narration" => "UPI-AHMADHAMZA19@OKAXIS-U330653149714-SAVINGS", "Chq./Ref.No." => "330653149714", "Value Dt" => "02/11/23", "Withdrawal Amt." => nil, "Deposit Amt." => "1000"}
+    {
+      "Date" => "02/11/23",
+      "Narration" => "UPI-AHMADHAMZA19@OKAXIS-U330653149714-SAVINGS",
+      "Chq./Ref.No." => "330653149714", "Value Dt" => "02/11/23",
+      "Withdrawal Amt." => nil,
+      "Deposit Amt." => "1000"
+    }
   end
 
   # Mocking
@@ -28,7 +44,8 @@ RSpec.describe TransactionAnalyzer do
     require 'csv'
     [
       instance_double(CSV::Row, to_h: tea_transaction),
-      instance_double(CSV::Row, to_h: uncategorized_transaction)
+      instance_double(CSV::Row, to_h: uncategorized_transaction),
+      instance_double(CSV::Row, to_h: restaurant_transaction)
     ]
      
   end
@@ -42,9 +59,9 @@ RSpec.describe TransactionAnalyzer do
       "travel"=>{"irctc"=>[], "air"=>[], "ola"=>[], "ober"=>[], "others"=>[]},
       "utility"=>{"electricity"=>[], "gas"=>[], "maintenance"=>[], "mobile"=>[], "insurance"=>[], "others"=>[]},
       "petrol"=>{"petrol"=>[]},
-      "grocery"=>{"mart"=>[], "dmart"=>[], "others"=>[]},
-      # "personal" => {"bike" => [], "insurance" => []},
-      # "project" => {"midjourney"=>[], "digitalocean" => [], "salary" => []},
+      "grocery"=>{"fruit"=>[], "dudaram"=>[], "others"=>[]},
+      "personal" => {"bike" => [], "insurance" => [], "others" =>[]},
+      "project" => {"midjourney"=>[], "digitalocean" => [], "salary" => [],"coworking" =>[], "others" =>[]},
       "others"=>{}
     }
   end
@@ -69,12 +86,10 @@ RSpec.describe TransactionAnalyzer do
     analyzer = described_class.new(csv_data)
     expect(analyzer.process).to eq(
       "others" => [uncategorized_transaction.merge!(:category=>"others", :sub_category=>nil)],
-      "restaurant" => {"tea"=>[tea_transaction.merge!(:category=>"restaurant",:sub_category=>"tea")]}
+      "restaurant" => {
+        "tea"=>[tea_transaction.merge!(:category=>"restaurant",:sub_category=>"tea")],
+        'others' => [restaurant_transaction.merge!(:category=>"restaurant",:sub_category=> "others")]
+      }
     )
-  end
-
-  xit "just to verify all categories" do 
-    analyzer = described_class.new(csv_data)
-    expect(analyzer.process).to eq([])
   end
 end

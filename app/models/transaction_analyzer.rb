@@ -19,37 +19,42 @@ class TransactionAnalyzer
       if key == "others"
         result[key] = value
       else
+   
         result[key] = value.group_by { |v1| v1[:sub_category] }
       end
     end
-    result['others'].each do |transaction|
-    end
+    result
   end
 
-  private 
-  
-  def categorized_transactions
-    @transactions.map do |row| 
-      row = row.to_h
-      row.merge!(category: nil, sub_category: nil)
-      item = row["Narration"].split("-").last
-      item = item.downcase
-      categories.each do |key, val|
-        if key == item 
-          row[:category] = item
-          row[:sub_category] = "others"
-        elsif val.keys.include?(item)
-          row[:category] = key
-          row[:sub_category] = item
-        elsif row[:category].nil? || row[:sub_category].nil?
-          row[:category] = key
-        end
-      end 
-      row
+  private
 
-    end.group_by do |transaction|
-      transaction[:category] 
+  def categorized_transactions
+    @transactions.map do |row|
+      row = row.to_h
+      categories.except('others').each do |category, sub_categories|
+        subs = sub_categories.keys.map(&:upcase).join('|')
+        if subs.present?
+          final_regex = "#{category.upcase}|#{subs}"
+        else
+          final_regex = "#{category.upcase}"
+        end
+
+        if row['Narration'].match?(%r{#{final_regex}})
+          row[:category] = category
+          row[:sub_category] = get_sub_category(row['Narration'], sub_categories) || 'others'
+        elsif row[:category].nil?
+          row[:category] = 'others'
+          row[:sub_category] = nil
+        end
+      end
+      row
+    end.group_by do |t|
+      t[:category]
     end
+  end 
+
+  def get_sub_category(narration, sub_categories)
+    sub_categories.keys.find { |sub| narration.match?(%r{#{sub.upcase}}) }
   end
   
   def categories
