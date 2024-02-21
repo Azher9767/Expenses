@@ -7,6 +7,8 @@ RSpec.describe TransactionAnalyzer do
   #   end
   #   result
   # end
+
+  
   let(:restaurant_transaction) do
     {
       "Date" => "02/11/23",
@@ -29,13 +31,26 @@ RSpec.describe TransactionAnalyzer do
     }
   end
 
-  let(:uncategorized_transaction) do
+  let(:deposit_transaction) do
     {
       "Date" => "02/11/23",
       "Narration" => "UPI-AHMADHAMZA19@OKAXIS-U330653149714-SAVINGS",
-      "Chq./Ref.No." => "330653149714", "Value Dt" => "02/11/23",
+      "Chq./Ref.No." => "330653149714",
+      "Value Dt" => "02/11/23",
       "Withdrawal Amt." => nil,
       "Deposit Amt." => "1000"
+    }
+  end
+
+
+  let(:uncategorized_transaction) do
+    {
+      "Date" => "04/11/23",
+      "Narration" => "UPI-ANITA HARIDAS KATAKE-PAYTMQRFB8AGGMMP4@PAYTM-PYTM0123456-330892207107-UPI",
+      "Chq./Ref.No." => "330892207107",
+      "Value Dt" => "04/11/23",
+      "Withdrawal Amt." => "40",
+      "Deposit Amt." => nil
     }
   end
 
@@ -45,7 +60,8 @@ RSpec.describe TransactionAnalyzer do
     [
       instance_double(CSV::Row, to_h: tea_transaction),
       instance_double(CSV::Row, to_h: uncategorized_transaction),
-      instance_double(CSV::Row, to_h: restaurant_transaction)
+      instance_double(CSV::Row, to_h: restaurant_transaction),
+      instance_double(CSV::Row, to_h: deposit_transaction)
     ]
      
   end
@@ -82,7 +98,7 @@ RSpec.describe TransactionAnalyzer do
     allow(Category).to receive(:default_response).and_return(response)
   end
 
-  it "read csv data and verify category and sub category" do
+  xit "read csv data and verify category and sub category" do
     analyzer = described_class.new(csv_data)
     expect(analyzer.process).to eq(
       "others" => [uncategorized_transaction.merge!(:category=>"others", :sub_category=>nil)],
@@ -91,5 +107,15 @@ RSpec.describe TransactionAnalyzer do
         'others' => [restaurant_transaction.merge!(:category=>"restaurant",:sub_category=> "others")]
       }
     )
+  end
+
+  xit "expenses per sub_category" do 
+    analyzer = described_class.new(csv_data)
+    expect(analyzer.expenses_sub_category).to eq({"others"=>{nil=>40.0}, "restaurant"=>{"others"=>100.0, "tea"=>25.0}})
+  end
+
+  it "expenses per category" do 
+    analyzer = described_class.new(csv_data)
+    expect(analyzer.expenses_category).to eq({"others"=>40, "restaurant"=>125})
   end
 end

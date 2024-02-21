@@ -18,7 +18,7 @@ class TransactionsController < ApplicationController
     CSV.foreach((params[:csv_file]), headers: true, col_sep: ",") do |row|
       @result << row
     end
-    transaction_analyzer = TransactionAnalyzer.new(@result).process
+    transaction_analyzer = TransactionAnalyzer.new(@result).expenses_category
     transaction = Transaction.new(data: transaction_analyzer.to_json)
    
     if  transaction.save

@@ -1,17 +1,31 @@
 class TransactionAnalyzer
   def initialize(result)
     @transactions = result
-    @result = {
-      petrol: 0,
-      restaurant: 0,
-      grocery: 0,
-      shopping: 0,
-      utility: 0,
-      medical:  0,
-      entertainment: 0,
-      others: 0 
-    }
   end
+
+def expenses_category
+  total = {}
+  categorized_transactions.each do |key, value|
+    total[key] = value.sum { |val| val["Withdrawal Amt."].to_i }
+  end
+  total
+end
+
+def expenses_sub_category
+  total = {}
+  categorized_transactions.each do |key, value|
+    total[key] = value.group_by do |v1|
+      v1[:sub_category]
+    end.transform_values do |v1|
+      v1.sum do |val|
+        val["Withdrawal Amt."].to_f
+        end
+      end
+    end
+  total
+end
+
+  # private
 
   def process
     result = {}
@@ -26,11 +40,11 @@ class TransactionAnalyzer
     result
   end
 
-  private
-
   def categorized_transactions
     @transactions.map do |row|
       row = row.to_h
+      next if !row['Deposit Amt.'].nil? && row['Withdrawal Amt.'].nil?
+
       categories.except('others').each do |category, sub_categories|
         subs = sub_categories.keys.map(&:upcase).join('|')
         if subs.present?
@@ -47,8 +61,9 @@ class TransactionAnalyzer
           row[:sub_category] = nil
         end
       end
+  
       row
-    end.group_by do |t|
+    end.compact!.group_by do |t|
       t[:category]
     end
   end 
