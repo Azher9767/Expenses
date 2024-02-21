@@ -29,7 +29,7 @@ def expenses_sub_category
   total
 end
 
-  # private
+  private
 
   def process
     result = {}

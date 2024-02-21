@@ -1,13 +1,17 @@
 <h2> Consumption! </h2>
+<% a = {"restaurant" => 7290, "grocery" => 9865, "entertainment" => 649, "project" => 11629, "others" => 21189, "petrol":5220,"shopping":16450,"utility":1020} %>
+<% total_amount = a.values.sum.to_f %>
+<% percentage_category = a.transform_values {|value| (value/ total_amount) * 100} %>
+
+<%= pie_chart(percentage_category) %>
+
 <h3><%= link_to "Add New Transaction", new_transaction_path %></h3>
+
 <ol class="list-group list-group-numbered">
   <% @transactions.each_with_index do |transaction, index| %>
     <li class="list-group-item"> 
     <span>Transaction created at: <%= transaction.created_at.strftime("%d %b %Y %H:%M:%S") %> </span>
-    <%= link_to "show", transaction %> 
-                                                
+    <%= link_to "show", transaction %>                                         
     </li>
     <% end %>
 </ol>
-
-
