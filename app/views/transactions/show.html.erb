@@ -1,4 +1,16 @@
-<h1> <%= @transaction.data %> </h1>
+<% per_category = @per_category  %>
+<% total_amount = per_category.values.sum.to_f %>
+<% percentage_per_category = per_category.transform_values {|value| ((value/ total_amount) * 100).round(1)} %>
+<%= pie_chart (percentage_per_category), suffix: "%" %>
 
+<% sum = 0 %>
+<% @per_subcategory.each do |key, value| %>
+  <% sum = value.values.sum.to_f %>
+<% end %>
 
-
+<% @per_subcategory.each do |key, value| %>
+  <%  percentage_hash = value.transform_values {|value| (value/ sum) * 100} %> 
+  <p class="text-success"><%= p key.upcase %></p>
+  <%= pie_chart (percentage_hash), suffix: "%" %>
+<% end %>
+  

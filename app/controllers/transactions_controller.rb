@@ -5,6 +5,10 @@ class TransactionsController < ApplicationController
 
   def show 
     @transaction = Transaction.find(params[:id])
+    string_to_hash = JSON.parse(@transaction.data)
+   @per_category = CategoryAnalyzer.new(string_to_hash).expenses_per_category
+   @per_subcategory = CategoryAnalyzer.new(string_to_hash).expenses_per_subcategory
+
   end
 
   def new
