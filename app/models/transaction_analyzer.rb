@@ -3,46 +3,19 @@ class TransactionAnalyzer
     @transactions = result
   end
 
-def expenses_category
-  total = {}
-  categorized_transactions.each do |key, value|
-    total[key] = value.sum { |val| val["Withdrawal Amt."].to_i }
-  end
-  total
-end
-
-def expenses_sub_category
-  total = {}
-  categorized_transactions.each do |key, value|
-    if key == "others"
-      total[key] = value.sum { |val| val["Withdrawal Amt."].to_i }
-    else
-    total[key] = value.group_by do |v1|
-      v1[:sub_category]
-    end.transform_values do |v1|
-      v1.sum do |val|
-        val["Withdrawal Amt."].to_f
-        end
-      end
-    end
-  end
-  total
-end
-
-  private
-
   def process
     result = {}
     categorized_transactions.each do |key, value|
       if key == "others"
         result[key] = value
       else
-   
         result[key] = value.group_by { |v1| v1[:sub_category] }
       end
     end
     result
   end
+
+  private
 
   def categorized_transactions
     @transactions.map do |row|

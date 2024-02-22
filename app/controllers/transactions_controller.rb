@@ -1,5 +1,4 @@
 class TransactionsController < ApplicationController 
-
   def index
     @transactions = Transaction.all
   end
@@ -18,14 +17,12 @@ class TransactionsController < ApplicationController
     CSV.foreach((params[:csv_file]), headers: true, col_sep: ",") do |row|
       @result << row
     end
-    transaction_analyzer = TransactionAnalyzer.new(@result).expenses_category
+    transaction_analyzer = TransactionAnalyzer.new(@result).process
     transaction = Transaction.new(data: transaction_analyzer.to_json)
    
-    if  transaction.save
+    if transaction.save
       redirect_to transaction
     end
-  #  else
-  #   render :new
   end
 
   private 

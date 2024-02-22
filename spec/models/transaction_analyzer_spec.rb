@@ -63,7 +63,6 @@ RSpec.describe TransactionAnalyzer do
       instance_double(CSV::Row, to_h: restaurant_transaction),
       instance_double(CSV::Row, to_h: deposit_transaction)
     ]
-     
   end
 
   let(:response) do
@@ -98,7 +97,7 @@ RSpec.describe TransactionAnalyzer do
     allow(Category).to receive(:default_response).and_return(response)
   end
 
-  xit "read csv data and verify category and sub category" do
+  it "read csv data and verify category and sub category" do
     analyzer = described_class.new(csv_data)
     expect(analyzer.process).to eq(
       "others" => [uncategorized_transaction.merge!(:category=>"others", :sub_category=>nil)],
@@ -107,15 +106,5 @@ RSpec.describe TransactionAnalyzer do
         'others' => [restaurant_transaction.merge!(:category=>"restaurant",:sub_category=> "others")]
       }
     )
-  end
-
-  xit "expenses per sub_category" do 
-    analyzer = described_class.new(csv_data)
-    expect(analyzer.expenses_sub_category).to eq({"others"=>40, "restaurant"=>{"others"=>100.0, "tea"=>25.0}})
-  end
-
-  it "expenses per category" do 
-    analyzer = described_class.new(csv_data)
-    expect(analyzer.expenses_category).to eq({"others"=>40, "restaurant"=>125})
   end
 end
