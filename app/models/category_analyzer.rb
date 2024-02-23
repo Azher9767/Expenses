@@ -15,13 +15,12 @@ class CategoryAnalyzer
   end
 
   def expenses_per_category
-    analyzer do |category, sub_categories, total|
-      sub_categories.each do |sub_category, transactions|
-        next unless transactions
-
-        total[category] = transactions.sum {|t| t["Withdrawal Amt."].to_f}
-      end
+    result = {}
+    expenses_per_subcategory.each do |category, sub_categories|
+      result[category] = 0.0
+      result[category] = sub_categories.sum {|(k, v)| v}
     end
+    result
   end
 
   private

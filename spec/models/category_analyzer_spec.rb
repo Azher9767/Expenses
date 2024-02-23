@@ -526,7 +526,7 @@ RSpec.describe CategoryAnalyzer do
 
   let(:output_per_category) do
     {
-      "restaurant"=>576.0, "grocery"=>1450.0, "entertainment"=>649.0, "project"=>4900.0, "shopping"=>16450.51, "utility"=>1020.0
+      "restaurant"=>831.0, "grocery"=>2475.0, "entertainment"=>649.0, "project"=>11629.97, "shopping"=>16450.51, "utility"=>1020.0, "others" => 0.0
     }
   end
 

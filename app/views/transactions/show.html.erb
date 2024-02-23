@@ -1,16 +1,65 @@
-<% per_category = @per_category  %>
-<% total_amount = per_category.values.sum.to_f %>
-<% percentage_per_category = per_category.transform_values {|value| ((value/ total_amount) * 100).round(1)} %>
-<%= pie_chart (percentage_per_category), suffix: "%" %>
+<%= pie_chart(per_category_percentage(@per_category), suffix: "%") %><br>
 
-<% sum = 0 %>
-<% @per_subcategory.each do |key, value| %>
-  <% sum = value.values.sum.to_f %>
-<% end %>
+<h3>Total Consumptions!</h3>
 
-<% @per_subcategory.each do |key, value| %>
-  <%  percentage_hash = value.transform_values {|value| (value/ sum) * 100} %> 
-  <p class="text-success"><%= p key.upcase %></p>
-  <%= pie_chart (percentage_hash), suffix: "%" %>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Category</th>
+      <th scope="col">Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @per_category.each_with_index do |(key, value), index| %>
+      <tr>
+        <th scope="row"><%= index+1%></th>
+        <th><%= key.upcase %></th> 
+        <th><%= value %></th>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<hr>
+
+<% per_subcategory_percentage(@per_subcategory).each do |category, subcategories| %>
+  <div class="card mb-4">
+    <div class="card-header"><%= category.upcase %> - <%= @per_category[category] %></div>
+    <div class="card-group">
+      <div class="card p-4" style="border: none;">
+        <%= pie_chart (subcategories), suffix: "%" %>
+      </div>
+      <div class="card p-4" style="border: none;">
+        <% category_hash = @per_subcategory[category] %>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">%</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Transactions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% subcategories.each_with_index do |(key, value), index| %>
+              <tr>
+                <th scope="row"><%= index %></th>
+                <td><%= key %></td>
+                <td><%= value %></td>
+                <td><%= category_hash[key] %></td>
+                <td>
+                  <% @string_to_hash[category][key].each_with_index do |transaction, index| %> 
+                    <span> <%= index + 1 %> - </span>
+                    <span><%= transaction['Date'] %> - <%= transaction['Withdrawal Amt.'] %> </span></span> <br>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>  
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>  
 <% end %>
-  
