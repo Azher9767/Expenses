@@ -5,7 +5,6 @@ class TransactionsController < ApplicationController
 
   def show 
     @transaction = Transaction.find(params[:id])
-    @string_to_hash = JSON.parse(@transaction.data)
   end
 
   def new

@@ -13,13 +13,15 @@ module TransactionHelper
     end
   end
 
+  def string_to_hash  
+    @string_to_hash = JSON.parse(@transaction.data)
+  end
+
   def per_category_hash
-    obj = CategoryAnalyzer.new(@string_to_hash)
-    @per_category = obj.expenses_per_category
+    CategoryAnalyzer.new(string_to_hash).expenses_per_category
   end
 
   def per_subcategory_hash
-    obj = CategoryAnalyzer.new(@string_to_hash)
-    @per_subcategory = obj.expenses_per_subcategory
+    CategoryAnalyzer.new(string_to_hash).expenses_per_subcategory
   end
 end
