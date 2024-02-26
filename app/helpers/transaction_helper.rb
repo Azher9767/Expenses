@@ -14,7 +14,7 @@ module TransactionHelper
   end
 
   def string_to_hash  
-    @string_to_hash = JSON.parse(@transaction.data)
+    @string_to_hash ||= JSON.parse(@transaction.data)
   end
 
   def per_category_hash
