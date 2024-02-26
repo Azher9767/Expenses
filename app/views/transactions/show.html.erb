@@ -1,4 +1,4 @@
-<%= pie_chart(per_category_percentage(@per_category), suffix: "%") %><br>
+<%= pie_chart(per_category_percentage(per_category_hash), suffix: "%") %><br>
 
 <h3>Total Consumptions!</h3>
 
@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @per_category.each_with_index do |(key, value), index| %>
+    <% per_category_hash.each_with_index do |(key, value), index| %>
       <tr>
         <th scope="row"><%= index+1%></th>
         <th><%= key.upcase %></th> 
@@ -23,15 +23,15 @@
 
 <hr>
 
-<% per_subcategory_percentage(@per_subcategory).each do |category, subcategories| %>
+<% per_subcategory_percentage(per_subcategory_hash).each do |category, subcategories| %>
   <div class="card mb-4">
-    <div class="card-header"><%= category.upcase %> - <%= @per_category[category] %></div>
+    <div class="card-header"><%= category.upcase %> - <%= per_category_hash[category] %></div>
     <div class="card-group">
       <div class="card p-4" style="border: none;">
         <%= pie_chart (subcategories), suffix: "%" %>
       </div>
       <div class="card p-4" style="border: none;">
-        <% category_hash = @per_subcategory[category] %>
+        <% category_hash = per_subcategory_hash[category] %>
         <table class="table table-bordered">
           <thead>
             <tr>

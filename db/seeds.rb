@@ -31,7 +31,6 @@ Category.create(name: "hospital", parent_id: category.id)
 Category.create(name: "pharmacy", parent_id: category.id)
 Category.create(name: "others", parent_id: category.id)
 
-
 category = Category.create(name: "travel")
 Category.create(name: "irctc", parent_id: category.id)
 Category.create(name: "air", parent_id: category.id)
@@ -47,9 +46,6 @@ Category.create(name: "mobile", parent_id: category.id)
 Category.create(name: "insurance", parent_id: category.id)
 Category.create(name: "others", parent_id: category.id)
 
-category = Category.create(name: "petrol")
-Category.create(name: "petrol", parent_id: category.id)
-
 category = Category.create(name: "grocery")
 Category.create(name: "fruit", parent_id: category.id)
 Category.create(name: "dudaram", parent_id: category.id)
@@ -58,6 +54,7 @@ Category.create(name: "others", parent_id: category.id)
 category = Category.create(name: "personal")
 Category.create(name: "bike", parent_id: category.id)
 Category.create(name: "insurance", parent_id: category.id)
+Category.create(name: "petrol", parent_id: category.id)
 Category.create(name: "others", parent_id: category.id)
 
 category = Category.create(name: "project")
@@ -68,8 +65,3 @@ Category.create(name: "coworking", parent_id: category.id)
 Category.create(name: "others", parent_id: category.id)
 
 category = Category.create(name: "others")
-
-
-
-
-

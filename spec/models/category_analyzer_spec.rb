@@ -530,7 +530,6 @@ RSpec.describe CategoryAnalyzer do
     }
   end
 
-
   let(:output_per_subcategory) do
     {
       "restaurant"=>{"tea"=>50.0, "others"=>205.0, "swiggy"=>576.0},
@@ -543,11 +542,9 @@ RSpec.describe CategoryAnalyzer do
     }
   end
 
-
   it "displays expenses per category and subcategory" do 
     category_analyzer = CategoryAnalyzer.new(input)
     expect(category_analyzer.expenses_per_subcategory).to eq(output_per_subcategory)
     expect(category_analyzer.expenses_per_category).to eq(output_per_category)
   end
 end
-

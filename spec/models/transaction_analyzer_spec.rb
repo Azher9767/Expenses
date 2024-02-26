@@ -7,7 +7,6 @@ RSpec.describe TransactionAnalyzer do
   #   end
   #   result
   # end
-
   
   let(:restaurant_transaction) do
     {
@@ -41,7 +40,6 @@ RSpec.describe TransactionAnalyzer do
       "Deposit Amt." => "1000"
     }
   end
-
 
   let(:uncategorized_transaction) do
     {
