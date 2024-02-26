@@ -1,0 +1,12 @@
+<h2> Consumption! </h2>
+
+<h3><%= link_to "Add New Transaction", new_transaction_path %></h3>
+
+<ol class="list-group list-group-numbered">
+  <% @transactions.each_with_index do |transaction, index| %>
+    <li class="list-group-item"> 
+    <span>Transaction created at: <%= transaction.created_at.strftime("%d %b %Y %H:%M:%S") %> </span>
+    <%= link_to "show", transaction %>                                         
+    </li>
+    <% end %>
+</ol>

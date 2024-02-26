@@ -9,4 +9,6 @@ Rails.application.routes.draw do
    root to: "main#index"
    #root "about#index"
    resources :about
+   resources :main
+   resources :transactions
 end
