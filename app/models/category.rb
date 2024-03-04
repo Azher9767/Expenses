@@ -1,6 +1,7 @@
 class Category < ApplicationRecord
   has_many :subcategories, class_name: "Category", foreign_key: "parent_id"
-  
+  validates :name, presence: true
+
   def self.default_response 
     response = {}
     where(parent_id: nil).each do |parent|
