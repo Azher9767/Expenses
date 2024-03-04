@@ -8,6 +8,7 @@
     <% @category.errors.full_messages_for(:name).each do |message| %>
       <div class="invalid-feedback"><%= message %></div>
     <% end %>
+    <%= link_to "Add Subcategories", new_categories_sub_category_path, class: 'btn btn-sm btn-primary mt-3'%> <br>
     <%= form.submit "Submit", class: 'btn btn-outline-success mt-3' %>
   </div>
 <% end %>
