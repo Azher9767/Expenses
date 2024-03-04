@@ -1,11 +1,15 @@
 <h2>Add Your Category </h2>
 
-<%= form_with model: @category do |form| %>
-  <div class="mb-3" >
+<%= form_with model: @category, html: {class: 'row g-3', novalidate: 'novalidate'} do |form| %>
+  <div class="col" >
     <%= form.label :name, class: 'form-label' %>
-    <%= form.text_field :name, class: 'form-control' %>
+    <%= form.text_field :name, class: "form-control #{error_validation_class(@category.errors, :name)}" %>
+
+    <% @category.errors.full_messages_for(:name).each do |message| %>
+      <div class="invalid-feedback"><%= message %></div>
+    <% end %>
+    <%= form.submit "Submit", class: 'btn btn-outline-success mt-3' %>
   </div>
-  <%= form.submit "Submit", class: 'btn btn-outline-success' %>
 <% end %>
   
 
