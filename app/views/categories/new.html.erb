@@ -1,12 +1,11 @@
 <h2>Add Your Category </h2>
 
 <%= form_with model: @category do |form| %>
-  <div class="field" >
-  <%= form.label :name %>
-  <%= form.text_field :name %><br>
+  <div class="mb-3" >
+    <%= form.label :name, class: 'form-label' %>
+    <%= form.text_field :name, class: 'form-control' %>
   </div>
-
- <button class="btn btn-outline-success" type="submit">Add</button>
+  <%= form.submit "Submit", class: 'btn btn-outline-success' %>
 <% end %>
   
 
