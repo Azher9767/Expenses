@@ -8,10 +8,15 @@
     <% @category.errors.full_messages_for(:name).each do |message| %>
       <div class="invalid-feedback"><%= message %></div>
     <% end %>
+   
+   <div id="subcategory_field">
+   </div>
 
-   <turbo-frame id="subcategories">
-      <%= link_to "Add Subcategories", new_categories_sub_category_path, data: {turbo_frame: "subcategories"}, class: 'btn btn-sm btn-primary mt-3'%> <br>
-    </turbo-frame>
-    <%= form.submit "Submit", class: 'btn btn-outline-success mt-3' %>
-    </div>
+   <%= link_to "Add Subcategories", add_subcategory_categories_path, data: { turbo_stream: true }, class: 'btn btn-sm btn-primary mt-3'%> <br>
+
+  <%= form.submit "Submit", class: 'btn btn-outline-success mt-3' %>
+
+ </div>
 <% end %>
+
+

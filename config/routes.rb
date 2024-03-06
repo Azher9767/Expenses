@@ -9,10 +9,12 @@ Rails.application.routes.draw do
    root to: "main#index"
    #root "about#index"
   
-   namespace :categories do
-    resources :sub_categories, only: :new
+  resources :categories do
+    collection do 
+      get 'add_subcategory'
+    end
    end
-   resources :categories
+
    resources :about
    resources :main
    resources :transactions

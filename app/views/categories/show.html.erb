@@ -1,18 +1,20 @@
+<h3 ><%= @category.name.upcase %></h3>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col">Parent Id</th>
-      <th scope="col">Category</th>
-    </tr>
-  </thead>
-  <thead>
-  <tr>
-    <th ><%= @category.id %></th>
-    <th ><%= @category.parent_id %></th>
-    <th ><%= @category.name %></th>
-  </tr>
-</thead>
-  <tbody>
+<table class="table table-bordered">
+  <body>
+    <thead>
+      <tr>
+        <th scope="col">Parent_Id</th>
+        <th scope="col">Sub-Category</th>
+        <th scope="col">Sub-Category_id</th>
+      </tr>
+    </thead>
+    <%  @category.subcategories.each do |subcategory| %>
+      <tr>
+        <th ><%= @category.id %></th>
+        <th ><%= subcategory.name %></th>
+        <th ><%= subcategory.id %></th>
+      </tr>
+    <% end %>
+  </body>
 </table>

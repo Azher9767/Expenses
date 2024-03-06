@@ -1,6 +1,6 @@
 class CategoriesController < ApplicationController
   def index
-    @category = Category.all
+    @categories = Category.main
   end
 
   def show
@@ -24,9 +24,13 @@ class CategoriesController < ApplicationController
     end
   end
 
+  def add_subcategory 
+    @subcategory = Category.new.subcategories.build
+  end
+
   private
 
   def category_params 
-    params.require(:category).permit(:name)
+    params.require(:category).permit(:name, subcategories_attributes: [:name])
   end
 end

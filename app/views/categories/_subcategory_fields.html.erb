@@ -1,0 +1,6 @@
+<%= fields_for "category[subcategories_attributes][#{subcategory.object_id}]", subcategory do |form|%>
+  <div class="col" >
+    <%= form.label :name, class: 'form-label' %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+<% end %>
