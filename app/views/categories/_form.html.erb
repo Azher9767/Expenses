@@ -1,0 +1,22 @@
+<%= form_with model: category, html: {class: 'row g-3', novalidate: 'novalidate'} do |form| %>
+  <div class="col" >
+    <%= form.label :name, class: 'form-label' %>
+    <%= form.text_field :name, class: "form-control #{error_validation_class(category.errors, :name)}" %>
+
+    <% category.errors.full_messages_for(:name).each do |message| %>
+      <div class="invalid-feedback"><%= message %></div>
+    <% end %>
+
+    <% category.subcategories.each do |subcategory| %>
+      <%= render partial: "subcategory_fields", locals: {subcategory: subcategory} %>
+    <% end %>
+   
+   <div id="subcategory_field">
+   </div>
+
+   <%= link_to "Add Subcategories", add_subcategory_categories_path, data: { turbo_stream: true }, class: 'btn btn-sm btn-primary mt-3'%> <br>
+
+  <%= form.submit "Submit", class: 'btn btn-outline-success mt-3' %>
+
+ </div>
+<% end %>
