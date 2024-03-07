@@ -1,6 +1,8 @@
 class Category < ApplicationRecord
   has_many :subcategories, class_name: "Category", foreign_key: "parent_id"
+
   accepts_nested_attributes_for :subcategories
+
   validates :name, presence: true
 
   scope :main, -> {where(parent_id: nil)}

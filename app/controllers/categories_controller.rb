@@ -19,6 +19,30 @@ class CategoriesController < ApplicationController
     @category = Category.find(params[:id])
   end
 
+  def update
+    @category = Category.find(params[:id])
+    if @category.update(category_params)
+      redirect_to @category
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+  # def update 
+  #   @category = Category.find(params[:id])
+  
+  #   category_params[:subcategories_attributes].each do |key, subcat|
+  #     subcategory = Category.find_by(id: key)
+  #     if subcategory
+  #       subcategory.update!(subcat) 
+  #     else
+  #       @category.subcategories.create!(subcat)
+  #     end
+  #   end
+  #   redirect_to @category
+  #   rescue StandardError => e  
+  #   render :edit, status: :unprocessable_entity
+  # end
+
   def create 
     @category = Category.new(category_params)
     if @category.save
@@ -35,6 +59,6 @@ class CategoriesController < ApplicationController
   private
 
   def category_params 
-    params.require(:category).permit(:name, subcategories_attributes: [:name])
+    params.require(:category).permit(:name, subcategories_attributes: [:id, :name])
   end
 end
