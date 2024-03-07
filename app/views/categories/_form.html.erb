@@ -7,16 +7,17 @@
       <div class="invalid-feedback"><%= message %></div>
     <% end %>
 
+    <p class="text-primary  mt-3"> SUBCATEGORY</p>
+
     <% category.subcategories.each do |subcategory| %>
       <%= render partial: "subcategory_fields", locals: {subcategory: subcategory} %>
     <% end %>
-   
-   <div id="subcategory_field">
-   </div>
-
-   <%= link_to "Add Subcategories", add_subcategory_categories_path, data: { turbo_stream: true }, class: 'btn btn-sm btn-primary mt-3'%> <br>
-
-  <%= form.submit "Submit", class: 'btn btn-outline-success mt-3' %>
-
- </div>
+    
+    <div id="subcategory_field">
+    </div>
+    
+    <%= link_to "Add Subcategories", add_subcategory_categories_path, data: { turbo_stream: true }, class: 'btn btn-sm btn-primary mt-3'%> <br>
+    
+    <%= form.submit "Submit", class: 'btn btn-outline-success mt-3' %>
+  </div>
 <% end %>

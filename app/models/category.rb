@@ -1,5 +1,8 @@
 class Category < ApplicationRecord
+  # Associations
   has_many :subcategories, class_name: "Category", foreign_key: "parent_id"
+  
+  belongs_to :parent, class_name: "Category"
 
   accepts_nested_attributes_for :subcategories
 
