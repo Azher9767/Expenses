@@ -4,17 +4,17 @@
   <body>
     <thead>
       <tr>
-        <th scope="col">Parent_Id</th>
-        <th scope="col">Sub-Category</th>
         <th scope="col">Sub-Category_id</th>
+        <th scope="col">Sub-Category</th>
       </tr>
     </thead>
     <%  @category.subcategories.each do |subcategory| %>
       <tr>
-        <th ><%= @category.id %></th>
-        <th ><%= subcategory.name %></th>
         <th ><%= subcategory.id %></th>
+        <th ><%= subcategory.name %></th>
       </tr>
     <% end %>
   </body>
 </table>
+
+<%= link_to "Back to Categories",categories_path, class: "btn btn-sm btn-primary mb-3" %>
