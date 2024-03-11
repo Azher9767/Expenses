@@ -6,7 +6,6 @@ class CategoriesController < ApplicationController
   def show
     @category = Category.find(params[:id])
     # rescue ActiveRecord::RecordNotFound => e
-    #   redirect_to '/404'
   end
 
   def new
@@ -51,11 +50,14 @@ class CategoriesController < ApplicationController
   end
 
   def destroy
-   @category = Category.find(params[:id])
-   parent = @category.parent
-   @category.destroy
-
-   redirect_to category_path(parent), notice: "successfully deleted!"
+    @identifier = params[:identifier]
+    if params[:object] == 'false'
+      @category = Category.find(params[:id])
+      parent = @category.parent
+      @category.destroy
+    elsif params[:object] == 'true'
+      @category = Category.new
+    end
   end
 
   def add_subcategory 
