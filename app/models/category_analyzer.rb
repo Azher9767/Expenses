@@ -4,33 +4,33 @@ class CategoryAnalyzer
   end
 
   def expenses_per_subcategory
-    analyzer do |category, sub_categories, total|
+    total = {}
+    
+    @data.each do |category, sub_categories|
       total[category] = {}
-      sub_categories.each do |sub_category, transactions|
-        next unless transactions
-
-        total[category][sub_category] = transactions.sum {|t| t["Withdrawal Amt."].to_f}
+      if category == "others"
+        total[category] = sub_categories.sum {|t| t["Debit Amount"].to_f}
+      else
+        sub_categories.each do |sub_category, transactions|
+          next unless transactions
+          
+          total[category][sub_category] = transactions.sum {|t| t["Debit Amount"].to_f}
+        end
       end
     end
+    total
   end
 
   def expenses_per_category
     result = {}
     expenses_per_subcategory.each do |category, sub_categories|
       result[category] = 0.0
-      result[category] = sub_categories.sum {|(k, v)| v}
+      if category == "others"
+        result[category] = sub_categories
+      else
+        result[category] = sub_categories.sum {|(k, v)| v}
+      end
     end
     result
-  end
-
-  private
-
-  def analyzer
-    total = {}
-    
-    @data.each do |category, sub_categories|
-      yield(category, sub_categories, total)
-    end
-    total
   end
 end
