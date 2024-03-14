@@ -1,0 +1,16 @@
+<h3> Edit Transaction </h3><br>
+
+<%  @object_data.each do |title, val| %>
+  <%= title %> :--   <%= val %><br>
+ <% end %><br><br>
+
+ <h3> change your category </h3>
+
+<%= form_with url: root_path, data: {controller: "category"} do |f| %>
+  <%= f.label :new_category %>
+  <%= select_tag :new_category, options_for_select(Category.main.map {|m| [m.name, m.id]}), {prompt: "select category", data: {category_target: "main", action: "change-> category#handler"}}%><br><br>
+  
+  <%= f.label :new_subcategory %>
+  <%= select_tag :new_subcategory, options_for_select([]), {disabled: true, data: {category_target: "subcategory"}} %>
+
+  <% end %>

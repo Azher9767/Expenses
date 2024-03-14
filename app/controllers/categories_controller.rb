@@ -8,6 +8,13 @@ class CategoriesController < ApplicationController
     # rescue ActiveRecord::RecordNotFound => e
   end
 
+  def subcategories
+    @category = Category.find(params[:id])
+    respond_to do |format|
+      format.json {render json: @category.subcategories}
+    end
+  end
+
   def new
     @category = Category.new
   end

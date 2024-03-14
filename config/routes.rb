@@ -13,9 +13,21 @@ Rails.application.routes.draw do
     collection do 
       get 'add_subcategory'
     end
+
+    member do
+      get 'subcategories'
+    end
    end
+
+  resources :transactions do
+    member do
+      get 'change_categories'
+      
+      put 'get_subcategories'
+    end
+  end
 
    resources :about
    resources :main
-   resources :transactions
+  #  resources :transactions
 end
