@@ -70,3 +70,4 @@ group :development, :test do
 end
 
 gem "chartkick"
+gem 'requestjs-rails'
