@@ -1,0 +1,14 @@
+<% time = Time.now.to_i %>
+<%= fields_for "category[subcategories_attributes][#{subcategory.persisted? ? subcategory.id : subcategory.object_id}]", subcategory do |form|%>
+  <div class="col" id="<%= dom_id(subcategory) %>_<%= time %>">
+    <%= form.hidden_field :id %>
+    <%= form.label :name, class: 'form-label' %>
+    <%= form.text_field :name, class: "form-control" %>
+
+    <% if subcategory.persisted? %>
+      <%= link_to "Delete", category_path(subcategory, object: false, identifier: time), data: {turbo_method: :delete},  class: "btn btn-sm btn-danger mb-3" %> 
+    <% else %>
+      <%= link_to "Delete", category_path(subcategory.object_id, object: true, identifier: time), data: {turbo_method: :delete},  class: "btn btn-sm btn-danger mb-3" %> 
+    <% end %>
+  </div>
+<% end %>

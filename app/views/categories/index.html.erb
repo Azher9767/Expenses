@@ -1,0 +1,11 @@
+<h3><%= link_to "Add New category", new_category_path %></h3>
+
+<ol class="list-group list-group-numbered">
+  <% @categories.each do |category| %>
+    <li class="list-group-item"> 
+      <%= category.name %> 
+      <%= link_to "show" , category %>  
+      <%= link_to "edit" , "categories/#{category.id}/edit" %>                            
+    </li>
+    <% end %>
+</ol>

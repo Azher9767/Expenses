@@ -1,0 +1,27 @@
+<h1>Edit Transaction</h1><br>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Description</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @transaction_data.each do |sub_categorycategory, transactions| %>
+      <% transactions.each_with_index do |transaction, index| %>
+        <tr>
+          <th><%= transaction["Date"] %></th> 
+          <th><%= transaction["Narration"] %></th> 
+          <th><%= transaction["Withdrawal Amt."] %></th> 
+          <th><%= link_to "edit_category", change_categories_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), class: 'btn btn-sm btn-primary' %></th>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Back", :back %>
