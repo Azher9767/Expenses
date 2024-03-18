@@ -8,9 +8,9 @@
 
 <%= form_with url: update_transaction_transaction_path, method: :put, data: {controller: "category"} do |f| %>
   <div data-controller="category">
-    <%= f.text_field :old_category, value: params[:category] %>
-    <%= f.text_field :old_subcategory, value: params[:sub_category] %>
-    <%= f.text_field :index, value: params[:index] %>
+    <%= f.text_field :old_category, value: params[:category], style: "display: none;" %>
+    <%= f.text_field :old_subcategory, value: params[:sub_category], style: "display: none;" %>
+    <%= f.text_field :index, value: params[:index], style: "display: none;" %>
 
     <%= f.label :new_category %>
     <%= select_tag :new_category, options_for_select(Category.main.map {|m| [m.name, m.id]}), {prompt: "select category", data: {category_target: "main", action: "change-> category#handler"}}%><br><br>

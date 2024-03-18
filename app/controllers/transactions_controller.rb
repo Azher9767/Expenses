@@ -40,7 +40,7 @@ class TransactionsController < ApplicationController
 
     index = params[:index].to_i
     deleted = transactions.delete_at(index)
-
+    
     deleted["category"] = new_category_name
     deleted["sub_category"] = new_subcategory_name
 
@@ -48,9 +48,9 @@ class TransactionsController < ApplicationController
     report_json[new_category_name][new_subcategory_name] ||= []
     report_json[new_category_name][new_subcategory_name] << deleted
 
-    @report.update(data: report_json)
+    @report.update(data: report_json.to_json)
 
-    #transactions/1/change_categories?category=grocery&index=0&sub_category=dudaram
+    #transactions/1/change_categories?category=grocery&index=0&sub_category=dudaram <<-- this is query params in URl
     redirect_to change_categories_transaction_path(@report, category: new_category_name, sub_category: new_subcategory_name, index: -1)
   end
 
@@ -93,4 +93,3 @@ class TransactionsController < ApplicationController
     params.require(:transaction).permit(:data, :csv_file)
   end
 end
-
