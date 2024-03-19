@@ -56,7 +56,7 @@
   <% else %>
     <div class="card mb-4">
       <div class="card-header">
-        <%= category.upcase %> - <%= per_category_hash[category] %><%= link_to "Edit Category", edit_transaction_path(@transaction, category: category),  class: 'btn btn-sm btn-primary mt-3' %>
+        <%= category.upcase %> - <%= per_category_hash[category] %> <%= link_to "Edit", edit_transaction_path(@transaction, category: category) %>
       </div>
       <div class="card-group">
         <div class="card p-4" style="border: none;">
@@ -71,7 +71,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">%</th>
                 <th scope="col">Amount</th>
-                <th scope="col">Transactions</th>
+                <%# <th scope="col">Transactions</th> %>
               </tr>
             </thead>
             <tbody>
@@ -81,12 +81,12 @@
                   <td><%= key %></td>
                   <td><%= value %></td>
                   <td><%= category_hash[key] %></td>
-                  <td>
-                    <% @string_to_hash[category][key].each_with_index do |transaction, index| %> 
-                      <span> <%= index + 1 %> - </span>
-                      <span><%= transaction['Date'] %> - <%= transaction['Withdrawal Amt.'] %> </span></span> <br>
-                    <% end %>
-                  </td>
+                  <%# <td> %>
+                    <%# @string_to_hash[category][key].each_with_index do |transaction, index| %> 
+                      <%# <span> = index + 1 - </span> %>
+                      <%# <span>= transaction['Date'] - = transaction['Withdrawal Amt.'] </span></span> <br> %>
+                    <%# end %>
+                  <%# </td> %>
                 </tr>
               <% end %>  
             </tbody>

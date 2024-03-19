@@ -22,12 +22,12 @@ class TransactionAnalyzer
       row = row.to_h.tap do |h|
         h[:category] = nil
         h[:sub_category] = nil
-        h['Narration'] = h['Narration'].strip
-        h['Debit Amount'] = h['Debit Amount'].strip.to_f
-        h['Credit Amount'] = h['Credit Amount'].strip.to_f
-        h['Date'] = h['Date'].strip
+        h['Narration'] = h['Narration']&.strip
+        h['Debit Amount'] = h['Withdrawal Amt.']&.strip&.to_f
+        h['Credit Amount'] = h['Deposit Amt.']&.strip&.to_f
+        h['Date'] = h['Date']&.strip
       end
-      next if !row['Debit Amount'].nil? && row['Credit Amount'].nil?
+      next if row['Debit Amount'].nil? && !row['Credit Amount'].nil?
 
       categories.except('others').each do |category, sub_categories|
         subs = sub_categories.keys.map(&:upcase).join('|')
@@ -42,9 +42,7 @@ class TransactionAnalyzer
         end
       end
       row
-    end
-
-    trans.group_by do |t|
+    end.compact.group_by do |t|
       t[:category]
     end
   end 

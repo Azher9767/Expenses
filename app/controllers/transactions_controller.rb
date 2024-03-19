@@ -1,10 +1,11 @@
-class TransactionsController < ApplicationController 
+class TransactionsController < ApplicationController
+  before_action :find_transaction, only: [:show, :edit, :change_categories, :update_transaction]
+
   def index
     @transactions = Transaction.all
   end
 
   def show 
-    @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
       format.json { render json: @transaction.data }
@@ -12,11 +13,8 @@ class TransactionsController < ApplicationController
   end
 
   def edit
-    # @category = params[:category]
     @category_name = params[:category]
-    @transaction = Transaction.find(params[:id]) 
-    parse = JSON.parse(@transaction.data)
-    @transaction_data = parse[@category_name]
+    @transaction_data = JSON.parse(@transaction.data)[@category_name]
   end
 
   # update transaction will do 3 things: 
@@ -25,7 +23,7 @@ class TransactionsController < ApplicationController
   # 3. move updated transaction to new address(new category and new subcategory).
   # then update the transaction in the database.    
   def update_transaction
-    @report = Transaction.find(params[:id])
+    @report = @transaction
     report_json = JSON.parse(@report.data)
     
     old_category = params[:old_category]
@@ -77,19 +75,21 @@ class TransactionsController < ApplicationController
   # end
 
   def change_categories
-    @transaction = Transaction.find(params[:id])
-    category_name = params[:category]
-    transaction_json_data = JSON.parse(@transaction.data)
-    category = transaction_json_data[category_name]
-    sub_category = params[:sub_category]
-    sub_category_data = category[sub_category]
-    index = params[:index].to_i
-    @object_data = sub_category_data[index] 
+    if params[:category] == 'others'
+      @object_data = JSON.parse(@transaction.data)[params[:category]][params[:index].to_i]
+    else
+      category_data = JSON.parse(@transaction.data)[params[:category]][params[:sub_category]]
+      @object_data = category_data[params[:index].to_i]
+    end
   end
 
   private 
 
   def transaction_params
     params.require(:transaction).permit(:data, :csv_file)
+  end
+
+  def find_transaction
+    @transaction = Transaction.find(params[:id])
   end
 end
