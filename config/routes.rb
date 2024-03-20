@@ -22,8 +22,7 @@ Rails.application.routes.draw do
   resources :transactions do
     member do
       get 'change_categories'
-      
-      put 'get_subcategories'
+      put 'update_transaction'
     end
   end
 

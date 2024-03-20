@@ -1,15 +1,16 @@
 <% time = Time.now.to_i %>
-<h3 class="text-primary"><%= @category.name.upcase %></h3>
+<h3 class="text-primary mt-3"><%= @category.name.upcase %></h3>
 
-<table class="table table-bordered">
+<table class="table table-bordered mt-3">
   <body>
     <thead>
       <tr>
-        <th scope="col">Sub-Category_id</th>
+        <th>ID</th>
         <th scope="col">Sub-Category</th>
+        <th scope="col">Action</th>
       </tr>
     </thead>
-    <%  @category.subcategories.each do |subcategory| %>
+    <% @category.subcategories.each do |subcategory| %>
       <tr id="<%= dom_id(subcategory) %>_<%= time %>">
         <th ><%= subcategory.id %></th>
         <th ><%= subcategory.name %></th>
@@ -19,5 +20,6 @@
   </body>
 </table>
 
-<%= link_to "Back to Categories",categories_path, class: "btn btn-sm btn-primary mt-3" %>
+<%= link_to "Back", categories_path, class: "btn btn-sm btn-primary mt-3" %>
+<%= link_to "Edit", edit_category_path(@category), class: "btn btn-sm btn-success mt-3" %>
 
