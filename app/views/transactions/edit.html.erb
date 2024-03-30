@@ -6,6 +6,7 @@
       <th scope="col">Date</th>
       <th scope="col">Description</th>
       <th scope="col">Amount</th>
+      <th scope="col">SubCategory</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -17,6 +18,7 @@
           <td><%= transaction["Date"] %></td> 
           <td><%= transaction["Narration"] %></td> 
           <td><%= transaction["Withdrawal Amt."] %></td> 
+          <td><%= transaction["sub_category"] %></td>
           <td><%= link_to "Edit", change_categories_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), class: 'btn btn-sm btn-primary' %></td>
         </tr>
       <% end %>
@@ -26,7 +28,8 @@
           <tr>
             <td><%= transaction["Date"] %></td> 
             <td><%= transaction["Narration"] %></td> 
-            <td><%= transaction["Withdrawal Amt."] %></td> 
+            <td><%= transaction["Withdrawal Amt."] %></td>
+            <td><%= transaction["sub_category"] %></td>
             <td><%= link_to "Edit", change_categories_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), class: 'btn btn-sm btn-primary' %></td>
           </tr>
         <% end %>

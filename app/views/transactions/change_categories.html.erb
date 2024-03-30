@@ -1,4 +1,5 @@
 <h3> Edit Transaction </h3><br>
+<%= link_to "Back", :back %>
 
 <%  @object_data.each do |title, val| %>
   <%= title %> :--   <%= val %><br>
@@ -16,7 +17,9 @@
     <%= select_tag :new_category, options_for_select(Category.main.map {|m| [m.name, m.id]}), {prompt: "select category", data: {category_target: "main", action: "change-> category#handler"}}%><br><br>
     
     <%= f.label :new_subcategory %>
-    <%= select_tag :new_subcategory, options_for_select([]),  id: "subcategory" %>
+    <%= select_tag :new_subcategory, options_for_select([]), id: "subcategory" %>
   </div>
   <%= f.submit  %>
 <% end %>
+
+<%= link_to "Back", :back %>
