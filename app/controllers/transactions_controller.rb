@@ -23,7 +23,6 @@ class TransactionsController < ApplicationController
     new_subcategory_name = Category.find(params[:new_subcategory]).name
     Transactions.update(@transaction, params, new_category_name, new_subcategory_name)
     @transaction.reload
-    redirect_to change_categories_transaction_path(@transaction, category: new_category_name, sub_category: new_subcategory_name, index: -1)
   end
 
   def new
