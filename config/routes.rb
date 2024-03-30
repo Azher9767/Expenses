@@ -22,7 +22,10 @@ Rails.application.routes.draw do
   resources :transactions do
     member do
       get 'change_categories'
+      get 'change_category_form'
+      delete 'remove_category_form'
       put 'update_transaction'
+      delete 'destroy_transaction'
     end
   end
 

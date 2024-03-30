@@ -28,4 +28,12 @@ module TransactionHelper
   def per_subcategory_hash
     CategoryAnalyzer.new(string_to_hash).expenses_per_subcategory
   end
+
+  def main_categories
+    @main_categories ||= Category.main
+  end
+
+  def td_id(category, subcategory, index)
+    "#{category}_#{subcategory}_#{index}"
+  end
 end

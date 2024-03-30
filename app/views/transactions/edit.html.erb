@@ -6,8 +6,12 @@
       <th scope="col">Date</th>
       <th scope="col">Description</th>
       <th scope="col">Amount</th>
-      <th scope="col">SubCategory</th>
-      <th scope="col">Action</th>
+      <% if @category_name != 'others' %>
+        <th scope="col">SubCategory</th>
+      <% end %>  
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+      <th scope="col">Change Category</th>
     </tr>
   </thead>
 
@@ -18,8 +22,11 @@
           <td><%= transaction["Date"] %></td> 
           <td><%= transaction["Narration"] %></td> 
           <td><%= transaction["Withdrawal Amt."] %></td> 
-          <td><%= transaction["sub_category"] %></td>
           <td><%= link_to "Edit", change_categories_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), class: 'btn btn-sm btn-primary' %></td>
+          <td><%= link_to "Delete", destroy_transaction_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %></td>
+          <td id=<%= td_id(transaction['category'], transaction['sub_category'], index) %>>
+            <%= link_to "C", change_category_form_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), data: { turbo_stream: true }, class: 'btn btn-sm btn-primary' %>
+          </td>
         </tr>
       <% end %>
     <% else %>
@@ -31,6 +38,10 @@
             <td><%= transaction["Withdrawal Amt."] %></td>
             <td><%= transaction["sub_category"] %></td>
             <td><%= link_to "Edit", change_categories_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), class: 'btn btn-sm btn-primary' %></td>
+            <td><%= link_to "Delete", destroy_transaction_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), data: { turbo_method: :delete, confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %></td>
+            <td id=<%= td_id(transaction['category'], transaction['sub_category'], index) %>>
+              <%= link_to "C", change_category_form_transaction_path(@transaction, category: transaction['category'], sub_category: transaction['sub_category'], index: index), data: { turbo_stream: true }, class: 'btn btn-sm btn-primary' %>
+            </td>
           </tr>
         <% end %>
       <% end %>
