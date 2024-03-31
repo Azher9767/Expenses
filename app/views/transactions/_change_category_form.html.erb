@@ -1,0 +1,20 @@
+<div class="dropdown">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+    Change
+  </button>
+  <%= form_with url: update_transaction_transaction_path, method: :put, data: {controller: "category"}, class: 'dropdown-menu p-4' do |f|%>
+    <%= f.hidden_field :old_category, value: category %>
+    <%= f.hidden_field :old_subcategory, value: sub_category %>
+    <%= f.hidden_field :index, value: index %>
+    <div class="mb-3">
+      <%= f.label :new_category, class: 'form-label' %>
+      <%= select_tag :new_category, options_for_select(main_categories.map {|m| [m.name, m.id]}), {prompt: "select category", data: {category_target: "main", action: "change-> category#handler"}, class: 'form-control'} %>
+    </div>
+    <div class="mb-3">
+      <%= f.label :new_subcategory, class: 'form-label' %>
+      <%= select_tag :new_subcategory, options_for_select([]), id: "subcategory", class: 'form-control' %>
+    </div>
+  <%= f.submit 'Submit', class: 'btn btn-primary'%>
+  <%= link_to "Cancel", remove_category_form_transaction_path(@transaction, category: category, sub_category: sub_category, index: index), data: { turbo_method: :delete }, class: 'btn btn-sm btn-danger' %>
+  <% end %>
+</div>
