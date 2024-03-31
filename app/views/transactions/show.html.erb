@@ -24,68 +24,42 @@
 <hr>
 
 <% per_subcategory_percentage(per_subcategory_hash).each do |category, subcategories| %>
-  <%if category == 'others'%>
-    <div class="card mb-4">
-      <div class="card-header">
-        <%= category.upcase %> - <%= per_category_hash[category] %>
-        <%= link_to "Edit", edit_transaction_path(@transaction, category: category)%>
+  <div class="card mb-4">
+    <div class="card-header"><%= category.upcase %> - <%= per_category_hash[category] %><%= link_to "Edit Category", edit_transaction_path(@transaction, category: category),  class: 'btn btn-sm btn-primary mt-3' %></div>
+    <div class="card-group">
+      <div class="card p-4" style="border: none;">
+        <%= pie_chart (subcategories), suffix: "%" %>
       </div>
-      <div class="card-group">
-        <div class="card p-4" style="border: none;">
-          <table class="table table-bordered">
-            <thead>
+      <div class="card p-4" style="border: none;">
+        <% category_hash = per_subcategory_hash[category] %>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">%</th>
+              <th scope="col">Amount</th>
+              <th scope="col">Transactions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% subcategories.each_with_index do |(key, value), index| %>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Amount</th>
+                <th scope="row"><%= index %></th>
+                <td><%= key %></td>
+                <td><%= value %></td>
+                <td><%= category_hash[key] %></td>
+                <td>
+                  <% @string_to_hash[category][key].each_with_index do |transaction, index| %> 
+                    <span> <%= index + 1 %> - </span>
+                    <span><%= transaction['Date'] %> - <%= transaction['Withdrawal Amt.'] %> </span></span> <br>
+                  <% end %>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              <% string_to_hash[category].each_with_index do |transaction, index|%>
-                <tr>
-                  <th scope="row"><%= index + 1%></th>
-                  <td><%= transaction['Narration'] %></td>
-                  <td><%= transaction['Debit Amount']%></td>
-                </tr>
-              <% end %>  
-            </tbody>
-          </table>
-        </div>
+            <% end %>  
+          </tbody>
+        </table>
       </div>
     </div>
-  <% else %>
-    <div class="card mb-4">
-      <div class="card-header">
-        <%= category.upcase %> - <%= per_category_hash[category] %> <%= link_to "Edit", edit_transaction_path(@transaction, category: category) %>
-      </div>
-      <div class="card-group">
-        <div class="card p-4" style="border: none;">
-          <%= pie_chart (subcategories), suffix: "%" %>
-        </div>
-        <div class="card p-4" style="border: none;">
-          <% category_hash = per_subcategory_hash[category] %>
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">%</th>
-                <th scope="col">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% subcategories.each_with_index do |(key, value), index| %>
-                <tr>
-                  <th scope="row"><%= index + 1%></th>
-                  <td><%= key %></td>
-                  <td><%= value %></td>
-                  <td><%= category_hash[key] %></td>
-                </tr>
-              <% end %>  
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  <% end %> 
+  </div>  
 <% end %>

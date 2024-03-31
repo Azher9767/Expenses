@@ -1,5 +1,4 @@
 <h3> Edit Transaction </h3><br>
-<%= link_to "Back", :back %>
 
 <%  @object_data.each do |title, val| %>
   <%= title %> :--   <%= val %><br>
@@ -7,17 +6,11 @@
 
  <h3> change your category </h3>
 
-<%= form_with url: update_transaction_transaction_path, method: :put, data: {controller: "category"} do |f| %>
-  <%= f.hidden_field :old_category, value: params[:category]%>
-  <%= f.hidden_field :old_subcategory, value: params[:sub_category]%>
-  <%= f.hidden_field :index, value: params[:index] %>
-
+<%= form_with url: root_path, data: {controller: "category"} do |f| %>
   <%= f.label :new_category %>
   <%= select_tag :new_category, options_for_select(Category.main.map {|m| [m.name, m.id]}), {prompt: "select category", data: {category_target: "main", action: "change-> category#handler"}}%><br><br>
   
   <%= f.label :new_subcategory %>
-  <%= select_tag :new_subcategory, options_for_select([]), id: "subcategory" %>
-  <%= f.submit  %>
-<% end %>
+  <%= select_tag :new_subcategory, options_for_select([]), {disabled: true, data: {category_target: "subcategory"}} %>
 
-<%= link_to "Back", :back %>
+  <% end %>

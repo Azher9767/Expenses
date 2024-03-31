@@ -1,13 +1,36 @@
 import {Controller} from "@hotwired/stimulus"
-import {get} from "@rails/request.js"
+
 export default class extends Controller {
   static targets = ["main", "subcategory"]
 
+  connect() {
+    console.log(this.mainTarget)
+  }
+  
   handler() {
-    let categoryId = this.mainTarget.selectedOptions[0].value
+    console.log(this.mainTarget.selectedOptions[0].value)
+    const categoryId = this.mainTarget.selectedOptions[0].value
+    fetch(`/categories/${categoryId}/subcategories`)
+      .then(response => response.json())
+      .then(data => {
+        this.subcategoryTarget.disabled = false
+        // Clear existing options
+        this.subcategoryTarget.innerHTML = '';
 
-    get(`/categories/${categoryId}/subcategories`, {
-      responseKind: "turbo-stream"
-    })
+        // Add a default option (optional)
+        const defaultOption = document.createElement('option');
+        defaultOption.textContent = 'Select a subcategory';
+        defaultOption.value = '';
+        this.subcategoryTarget.appendChild(defaultOption);
+
+        // Iterate over each subcategory and append it as an option
+        data.forEach(subcategory => {
+          const option = document.createElement('option');
+          option.value = subcategory.id; // Assuming your subcategories have 'id' 
+          option.textContent = subcategory.name; // And 'name' properties
+          this.subcategoryTarget.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching subcategories:', error));
   }
 }

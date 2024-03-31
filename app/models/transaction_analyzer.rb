@@ -18,20 +18,17 @@ class TransactionAnalyzer
   private
 
   def categorized_transactions
-    trans = @transactions.map do |row|
-      row = row.to_h.tap do |h|
-        h[:category] = nil
-        h[:sub_category] = nil
-        h['Narration'] = h['Narration']&.strip
-        h['Debit Amount'] = h['Withdrawal Amt.']&.strip&.to_f
-        h['Credit Amount'] = h['Deposit Amt.']&.strip&.to_f
-        h['Date'] = h['Date']&.strip
-      end
-      next if row['Debit Amount'].nil? && !row['Credit Amount'].nil?
+    @transactions.map do |row|
+      row = row.to_h
+      next if !row['Deposit Amt.'].nil? && row['Withdrawal Amt.'].nil?
 
       categories.except('others').each do |category, sub_categories|
         subs = sub_categories.keys.map(&:upcase).join('|')
-        final_regex = subs.present? ? "#{category.upcase}|#{subs}" : "#{category.upcase}"
+        if subs.present?
+          final_regex = "#{category.upcase}|#{subs}"
+        else
+          final_regex = "#{category.upcase}"
+        end
 
         if row['Narration'].match?(%r{#{final_regex}})
           row[:category] = category
@@ -41,8 +38,9 @@ class TransactionAnalyzer
           row[:sub_category] = nil
         end
       end
+  
       row
-    end.compact.group_by do |t|
+    end.compact!.group_by do |t|
       t[:category]
     end
   end 

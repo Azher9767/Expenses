@@ -1,4 +1,0 @@
-<% dom_id = td_id(@category_name, @sub_category_name, @index)%>
-<%= turbo_stream.update dom_id do %>
-  <%= render 'change_category_form', {category: @category_name, sub_category: @sub_category_name, index: @index}%>
-<% end %>
