@@ -1,10 +1,12 @@
-class TransactionsController < ApplicationController 
+class TransactionsController < ApplicationController
+  before_action :find_transaction, only: [:show, :edit, :change_categories, :update_transaction, :change_category_form, :remove_category_form]
+  before_action :set_transaction_data, only: [:change_categories]
+
   def index
     @transactions = Transaction.all
   end
 
   def show 
-    @transaction = Transaction.find(params[:id])
     respond_to do |format|
       format.html
       format.json { render json: @transaction.data }
@@ -12,11 +14,15 @@ class TransactionsController < ApplicationController
   end
 
   def edit
-    # @category = params[:category]
     @category_name = params[:category]
-    @transaction = Transaction.find(params[:id]) 
-    parse = JSON.parse(@transaction.data)
-    @transaction_data = parse[@category_name]
+    @transaction_data = JSON.parse(@transaction.data)[@category_name]
+  end
+
+  def update_transaction
+    new_category_name = Category.find(params[:new_category]).name
+    new_subcategory_name = Category.find(params[:new_subcategory]).name
+    Transactions.update(@transaction, params, new_category_name, new_subcategory_name)
+    @transaction.reload
   end
 
   def new
@@ -42,19 +48,42 @@ class TransactionsController < ApplicationController
   # end
 
   def change_categories
+  end
+
+  def change_category_form
+    @category_name = params[:category]
+    @sub_category_name = params[:sub_category]
+    @index = params[:index]
+  end
+
+  def remove_category_form
+    @category_name = params[:category]
+    @sub_category_name = params[:sub_category]
+    @index = params[:index]
+  end
+
+  def destroy_transaction
     @transaction = Transaction.find(params[:id])
-    category_name = params[:category]
-    transaction_json_data = JSON.parse(@transaction.data)
-    category = transaction_json_data[category_name]
-    sub_category = params[:sub_category]
-    sub_category_data = category[sub_category]
-    index = params[:index].to_i
-    @object_data = sub_category_data[index] 
+    Transactions::Destroy.new(@transaction, params).call
+    @transaction.reload
+    redirect_to edit_transaction_path(@transaction, category: params[:category], sub_category: params[:sub_category])
   end
 
   private 
 
   def transaction_params
     params.require(:transaction).permit(:data, :csv_file)
+  end
+
+  def find_transaction
+    @transaction = Transaction.find(params[:id])
+  end
+
+  def set_transaction_data
+    @object_data ||= if params[:category] == 'others'
+      JSON.parse(@transaction.data)[params[:category]][params[:index].to_i]
+    else
+      JSON.parse(@transaction.data)[params[:category]][params[:sub_category]][params[:index].to_i]
+    end
   end
 end
