@@ -10,10 +10,8 @@ class CategoriesController < ApplicationController
 
   def subcategories
     @category = Category.find(params[:id])
-    @subcategories = @category.subcategories
-
     respond_to do |format|
-      format.turbo_stream
+      format.json {render json: @category.subcategories}
     end
   end
 

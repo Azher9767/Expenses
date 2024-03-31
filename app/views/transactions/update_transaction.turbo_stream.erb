@@ -1,5 +1,0 @@
-<% old_category_name = params[:old_category] %>
-<% transaction_data = JSON.parse(@transaction.data)[old_category_name] %>
-<%= turbo_stream.update dom_id(@transaction, old_category_name.humanize) do %>
-  <%= render 'transaction_edit', {category_name: old_category_name, transaction_data: transaction_data} %>
-<% end %>

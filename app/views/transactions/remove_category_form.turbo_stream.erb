@@ -1,4 +1,0 @@
-<% dom_id = td_id(@category_name, @sub_category_name, @index)%>
-<%= turbo_stream.update dom_id do %>
-  <%= link_to "C", change_category_form_transaction_path(@transaction, category: @category_name, sub_category: @sub_category_name, index: @index), data: { turbo_stream: true }, class: 'btn btn-sm btn-primary' %>
-<% end %>
