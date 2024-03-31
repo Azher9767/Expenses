@@ -43,7 +43,7 @@
             <tbody>
               <% string_to_hash[category].each_with_index do |transaction, index|%>
                 <tr>
-                  <th scope="row"><%= index %></th>
+                  <th scope="row"><%= index + 1%></th>
                   <td><%= transaction['Narration'] %></td>
                   <td><%= transaction['Debit Amount']%></td>
                 </tr>
@@ -71,22 +71,15 @@
                 <th scope="col">Name</th>
                 <th scope="col">%</th>
                 <th scope="col">Amount</th>
-                <%# <th scope="col">Transactions</th> %>
               </tr>
             </thead>
             <tbody>
               <% subcategories.each_with_index do |(key, value), index| %>
                 <tr>
-                  <th scope="row"><%= index %></th>
+                  <th scope="row"><%= index + 1%></th>
                   <td><%= key %></td>
                   <td><%= value %></td>
                   <td><%= category_hash[key] %></td>
-                  <%# <td> %>
-                    <%# @string_to_hash[category][key].each_with_index do |transaction, index| %> 
-                      <%# <span> = index + 1 - </span> %>
-                      <%# <span>= transaction['Date'] - = transaction['Withdrawal Amt.'] </span></span> <br> %>
-                    <%# end %>
-                  <%# </td> %>
                 </tr>
               <% end %>  
             </tbody>
